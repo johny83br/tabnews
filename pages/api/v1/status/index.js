@@ -1,9 +1,19 @@
 import database from "infra/database";
 
 async function status(request, response) {
-  const result = await database.query("SELECT 1 + 1 as sum;")
-  console.log(result.rows);
-  response.status(200).json({ status: "Jônata" });
+
+  const updatedAt = new Date().toISOString();
+
+  response.status(200).json({
+    updated_at: updatedAt,
+    depedencies: {
+      database: {
+        version: await database.getVersion(),
+        max_connections: await database.getMaxConnections(),
+        used_connections: await database.getUsedConnections()
+      }
+    }
+  });
 }
 
 export default status;
