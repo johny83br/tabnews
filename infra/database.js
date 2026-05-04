@@ -16,6 +16,7 @@ async function query(sql, params) {
     return result;
   } catch (error) {
     console.error('Error occurred while querying the database:', error);
+    throw error;
   } finally {
     await client.end();
   }
