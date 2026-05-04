@@ -2,19 +2,22 @@ import { Client } from "pg";
 
 async function query(sql, params) {
 
-  const client = new Client({
+  const objQueryConfig = {
     host: process.env.POSTGRES_HOST,
     port: process.env.POSTGRES_PORT,
     user: process.env.POSTGRES_USER,
     password: process.env.POSTGRES_PASSWORD,
     database: process.env.POSTGRES_DB,
-  });
+  };
+
+  const client = new Client(objQueryConfig);
 
   try {
     await client.connect();
     const result = await client.query(sql, params);
     return result;
   } catch (error) {
+    console.error('Credenciais do Postgres:', objQueryConfig);
     console.error('Error occurred while querying the database:', error);
     throw error;
   } finally {
