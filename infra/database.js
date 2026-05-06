@@ -8,7 +8,7 @@ async function query(sql, params) {
     user: process.env.POSTGRES_USER,
     password: process.env.POSTGRES_PASSWORD,
     database: process.env.POSTGRES_DB,
-    ssl: process.env.NODE_ENV === 'production' ? true : false
+    ssl: process.env.NODE_ENV === 'production' ? { ca: process.env.DATABASE_CA } : false
   };
 
   const client = new Client(objQueryConfig);
